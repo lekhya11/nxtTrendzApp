@@ -2,8 +2,8 @@ import Header from '../Header'
 
 import './index.css'
 
-const Home = () => {
-  ;<>
+const Home = () => (
+  <>
     <Header />
     <div className="app-container">
       <div className="home-content">
@@ -35,6 +35,6 @@ const Home = () => {
       />
     </div>
   </>
-}
+)
 
 export default Home
