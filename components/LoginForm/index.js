@@ -4,99 +4,119 @@ import './index.css'
 
 class LoginForm extends Component {
   state = {
-    username: '',
+    userName: '',
     password: '',
+    showSubmitError: false,
+    errorMsg: '',
   }
 
   onSubmitSuccess = () => {
     const {history} = this.props
-    history.push('/')
+    history.replace('/')
   }
 
-  submitForm = async event => {
+  onSubmitFailure = errorMsg => {
+    this.setState({showSubmitError: true, errorMsg})
+  }
+
+  onSubmitForm = async event => {
     event.preventDefault()
-    const {username, password} = this.state
-    const userDetails = {username, password}
+    const {userName, password} = this.state
+    const UserDetails = {userName, password}
+
     const url = 'https://apis.ccbp.in/login'
+
     const options = {
       method: 'POST',
-      body: JSON.stringify(userDetails),
+      body: JSON.stringify(UserDetails),
     }
+
     const response = await fetch(url, options)
+    const data = await response.json()
+    console.log(data)
 
     if (response.ok === true) {
       this.onSubmitSuccess()
+    } else {
+      this.onSubmitFailure(data.error_msg)
     }
   }
 
-  onChangeUsername = event => {
-    this.setState({username: event.target.value})
+  onChangeUser = event => {
+    this.setState({userName: event.target.value})
   }
 
   onChangePassword = event => {
     this.setState({password: event.target.value})
   }
 
-  renderPasswordField = () => {
+  renderPassword = () => {
     const {password} = this.state
+
     return (
-      <div>
-        <label className="input-label" htmlFor="password">
+      <div className="input-container">
+        <label className="label" htmlFor="UserName">
           PASSWORD
         </label>
         <input
-          type="password"
-          id="password"
-          className="password-input"
+          type="text"
+          className="input-value"
           value={password}
+          id="UserName"
+          placeholder="Password"
           onChange={this.onChangePassword}
         />
       </div>
     )
   }
 
-  renderUsernameField = () => {
-    const {username} = this.state
+  renderUserName = () => {
+    const {userName} = this.state
+
     return (
-      <div>
-        <label className="input-label" htmlFor="username">
+      <div className="input-container">
+        <label className="label" htmlFor="UserName">
           USERNAME
         </label>
         <input
           type="text"
-          id="username"
-          className="username-input"
-          value={username}
-          onChange={this.onChangeUsername}
+          className="input-value"
+          value={userName}
+          id="UserName"
+          placeholder="User Name"
+          onChange={this.onChangeUser}
         />
       </div>
     )
   }
 
   render() {
+    const {showSubmitError, errorMsg} = this.state
     return (
-      <div className="login-container">
-        <img
-          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png"
-          className="login-logo-mobile-image"
-          alt="website logo"
-        />
+      <div className="container">
         <img
           src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-login-img.png"
-          className="login-image"
           alt="website login"
+          className="mobile-image"
         />
-        <form className="form-container" onSubmit={this.submitForm}>
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png"
+          alt="website logo"
+          className="website-logo"
+        />
+
+        <form className="form-container" onSubmit={this.onSubmitForm}>
           <img
             src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png"
-            className="login-website-logo-desktop-image"
             alt="website logo"
+            className="form-website-logo"
           />
-          <div className="input-container">{this.renderUsernameField()}</div>
-          <div className="input-container">{this.renderPasswordField()}</div>
+          {this.renderUserName()}
+          {this.renderPassword()}
           <button type="submit" className="login-button">
             Login
           </button>
+          {showSubmitError && <p className="error-message">*{errorMsg}</p>}
         </form>
       </div>
     )
