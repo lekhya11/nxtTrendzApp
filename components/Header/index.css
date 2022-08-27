@@ -1,47 +1,37 @@
-.nav-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 25px;
-  padding-bottom: 25px;
-  width: 90%;
-  max-width: 1110px;
-}
-
 .nav-header {
   display: flex;
   justify-content: center;
+  border-bottom: 1px solid rgb(243, 243, 243);
+}
+
+@media screen and (max-width: 768px) {
+  .nav-header {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 1110px;
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 
 .website-logo {
   width: 110px;
 }
 
-.nav-list {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-self: flex-end;
-  flex: 1;
-  list-style-type: none;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-@media screen and (max-width: 768px) {
-  .nav-list {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) {
   .website-logo {
     width: 165px;
   }
 }
 
-.nav-list-icons {
+.nav-menu {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -52,16 +42,10 @@
   margin-bottom: 0;
 }
 
-@media screen and (min-width: 767px) {
-  .nav-list-icons {
+@media screen and (max-width: 767px) {
+  .nav-menu {
     display: none;
   }
-}
-
-.nav-image-icon {
-  border: none;
-  background: transparent;
-  padding: 0px;
 }
 
 .nav-link {
@@ -73,11 +57,7 @@
   color: #475569;
 }
 
-.link-image {
-  width: 24px;
-}
-
-.logout-button {
+.logout-desktop-btn {
   font-family: 'Roboto';
   font-weight: 600;
   font-size: 10px;
@@ -87,6 +67,7 @@
   border: none;
   border-radius: 4px;
   margin-left: 14px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 767px) {
@@ -95,18 +76,52 @@
   }
 }
 
-.logout-image {
+.logout-mobile-btn {
   border: none;
   padding: 0px;
+  cursor: pointer;
   background: transparent;
 }
 
 @media screen and (min-width: 768px) {
-  .logout-image {
+  .logout-mobile-btn {
     display: none;
   }
 }
 
 .logout-icon {
+  width: 24px;
+}
+
+.nav-menu-mobile {
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .nav-menu-mobile {
+    display: none;
+  }
+}
+
+.nav-menu-list-mobile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 70px;
+  background-color: #e6f6ff;
+  flex: 1;
+  list-style-type: none;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 0px;
+}
+
+.nav-menu-item-mobile {
+  margin: 0px;
+  cursor: pointer;
+}
+
+.nav-bar-image {
   width: 24px;
 }
