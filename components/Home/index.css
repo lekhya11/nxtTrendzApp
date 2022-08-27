@@ -1,4 +1,4 @@
-.app-container {
+.home-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -11,10 +11,10 @@
 }
 
 @media screen and (min-width: 768px) {
-  .app-container {
+  .home-container {
     flex-direction: row;
     justify-content: space-between;
-    padding-top: 50px;
+    padding-top: 96px;
   }
 }
 
@@ -30,12 +30,24 @@
   }
 }
 
-.Home-image-min {
+.home-mobile-img {
   width: 206px;
 }
 
 @media screen and (min-width: 768px) {
-  .Home-image-min {
+  .home-mobile-img {
+    display: none;
+  }
+}
+
+.home-desktop-img {
+  width: 50%;
+  max-width: 450px;
+  margin-left: 85px;
+}
+
+@media screen and (max-width: 767px) {
+  .home-desktop-img {
     display: none;
   }
 }
@@ -73,8 +85,9 @@
     text-align: left;
   }
 }
+
 .shop-now-button {
-  width: 60%;
+  width: 150px;
   font-size: 14px;
   font-weight: 400;
   font-family: 'Roboto';
@@ -85,22 +98,11 @@
   border-radius: 6px;
   background-color: #0967d2;
   margin-top: 20px;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 768px) {
   .shop-now-button {
-    width: 150px;
     font-size: 16px;
-  }
-}
-.Home-image-desktop {
-  width: 50%;
-  max-width: 450px;
-  margin-left: 85px;
-}
-
-@media screen and (max-width: 767px) {
-  .Home-image-desktop {
-    display: none;
   }
 }
