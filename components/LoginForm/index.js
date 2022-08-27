@@ -1,118 +1,119 @@
 import {Component} from 'react'
+import Cookies from 'js-cookie'
+import {Redirect} from 'react-router-dom'
 
 import './index.css'
 
 class LoginForm extends Component {
   state = {
-    userName: '',
+    username: '',
     password: '',
     showSubmitError: false,
     errorMsg: '',
   }
 
-  onSubmitSuccess = () => {
-    const {history} = this.props
-    history.replace('/')
-  }
-
-  onSubmitFailure = errorMsg => {
-    this.setState({showSubmitError: true, errorMsg})
-  }
-
-  onSubmitForm = async event => {
-    event.preventDefault()
-    const {userName, password} = this.state
-    const UserDetails = {userName, password}
-
-    const url = 'https://apis.ccbp.in/login'
-
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(UserDetails),
-    }
-
-    const response = await fetch(url, options)
-    const data = await response.json()
-    console.log(data)
-
-    if (response.ok === true) {
-      this.onSubmitSuccess()
-    } else {
-      this.onSubmitFailure(data.error_msg)
-    }
-  }
-
-  onChangeUser = event => {
-    this.setState({userName: event.target.value})
+  onChangeUsername = event => {
+    this.setState({username: event.target.value})
   }
 
   onChangePassword = event => {
     this.setState({password: event.target.value})
   }
 
-  renderPassword = () => {
-    const {password} = this.state
+  onSubmitSuccess = jwtToken => {
+    const {history} = this.props
 
+    Cookies.set('jwt_token', jwtToken, {
+      expires: 30,
+    })
+    history.replace('/')
+  }
+
+  onSubmitFailure = errorMsg => {
+    console.log(errorMsg)
+    this.setState({showSubmitError: true, errorMsg})
+  }
+
+  submitForm = async event => {
+    event.preventDefault()
+    const {username, password} = this.state
+    const userDetails = {username, password}
+    const url = 'https://apis.ccbp.in/login'
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(userDetails),
+    }
+    const response = await fetch(url, options)
+    const data = await response.json()
+    if (response.ok === true) {
+      this.onSubmitSuccess(data.jwt_token)
+    } else {
+      this.onSubmitFailure(data.error_msg)
+    }
+  }
+
+  renderPasswordField = () => {
+    const {password} = this.state
     return (
-      <div className="input-container">
-        <label className="label" htmlFor="UserName">
+      <>
+        <label className="input-label" htmlFor="password">
           PASSWORD
         </label>
         <input
-          type="text"
-          className="input-value"
+          type="password"
+          id="password"
+          className="password-input-field"
           value={password}
-          id="UserName"
-          placeholder="Password"
           onChange={this.onChangePassword}
         />
-      </div>
+      </>
     )
   }
 
-  renderUserName = () => {
-    const {userName} = this.state
-
+  renderUsernameField = () => {
+    const {username} = this.state
     return (
-      <div className="input-container">
-        <label className="label" htmlFor="UserName">
+      <>
+        <label className="input-label" htmlFor="username">
           USERNAME
         </label>
         <input
           type="text"
-          className="input-value"
-          value={userName}
-          id="UserName"
-          placeholder="User Name"
-          onChange={this.onChangeUser}
+          id="username"
+          className="username-input-field"
+          value={username}
+          onChange={this.onChangeUsername}
         />
-      </div>
+      </>
     )
   }
 
   render() {
     const {showSubmitError, errorMsg} = this.state
+    const jwtToken = Cookies.get('jwt_token')
+    if (jwtToken !== undefined) {
+      return <Redirect to="/" />
+    }
     return (
-      <div className="container">
-        <img
-          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-login-img.png"
-          alt="website login"
-          className="mobile-image"
-        />
+      <div className="login-form-container">
         <img
           src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png"
+          className="login-website-logo-mobile-image"
           alt="website logo"
-          className="website-logo"
         />
-
-        <form className="form-container" onSubmit={this.onSubmitForm}>
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-login-img.png"
+          className="login-image"
+          alt="website login"
+        />
+        <form className="form-container" onSubmit={this.submitForm}>
           <img
             src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png"
+            className="login-website-logo-desktop-image"
             alt="website logo"
-            className="form-website-logo"
           />
-          {this.renderUserName()}
-          {this.renderPassword()}
+          <div className="input-container">{this.renderUsernameField()}</div>
+          <div className="input-container">{this.renderPasswordField()}</div>
           <button type="submit" className="login-button">
             Login
           </button>
